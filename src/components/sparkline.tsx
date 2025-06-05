@@ -13,10 +13,11 @@ const get_timeseries = async (host, nsid) => {
 }
 
 export function Sparkline({ nsid, metric, height }) {
-  metric = metric ?? 'dids_estimate';
   const host = useContext(HostContext);
+  metric = metric ?? 'dids_estimate';
   return (
     <Fetch
+      key={nsid}
       using={get_timeseries}
       args={[host, nsid]}
       ok={({ series }) => (

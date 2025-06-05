@@ -96,6 +96,7 @@ function Str({ s }) {
   return (
     <span className="json-string">
       "
+      <span>
         {longer
           ? showAll
             ? (
@@ -117,7 +118,8 @@ function Str({ s }) {
             )
           : <span className="content">{s}</span>
         }
-      "
+        "
+      </span>
     </span>
   );
 }

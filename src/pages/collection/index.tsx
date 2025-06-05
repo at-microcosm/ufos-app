@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react';
 import { HostContext } from '../../context';
 import { useSearchParams } from 'react-router';
+import { BrowseGroup } from '../../components/browse-group';
 import { NsidNice } from '../../components/nsid';
 import { niceDt } from '../../components/nice';
 import { Sparkline } from '../../components/sparkline';
@@ -13,6 +14,7 @@ import './collection.css';
 const ONE_HOUR_MS = 60 * 60 * 1000;
 const ONE_DAY_MS = ONE_HOUR_MS * 24;
 const ONE_WEEK_MS = ONE_DAY_MS * 7;
+const ONE_MONTH_MS = ONE_WEEK_MS * 4;
 
 async function get_samples(host, nsid, limit) {
   const res = await fetch(`${host}/records?collection=${nsid}&limit=${limit}`);
@@ -26,7 +28,11 @@ async function get_collection_stat(host, nsid, period) {
   const now_ms = +new Date();
   const now_hours = Math.floor(now_ms / ONE_HOUR_MS);
   const now_truncated = now_hours * ONE_HOUR_MS;
-  const period_ms = { day: ONE_DAY_MS, week: ONE_WEEK_MS }[period]!;
+  const period_ms = {
+    day: ONE_DAY_MS,
+    week: ONE_WEEK_MS,
+    month: ONE_MONTH_MS,
+  }[period]!;
   const since = new Date(now_truncated - period_ms).toISOString();
   const res = await fetch(`${host}/collections/stats?collection=${nsid}&since=${since}`);
   if (!res.ok) {
@@ -44,124 +50,131 @@ export function Collection({}) {
   const [countType, setCountType] = useState('creates');
   const [searchParams, _setSearchParams] = useSearchParams();
   const nsid = searchParams.get('nsid');
+  const nsidPrefix = nsid.split('.').slice(0, -1).join('.');
 
   return (
-    <>
-      <h2>
-        <NsidNice nsid={nsid} />
-      </h2>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        margin: '0.5rem 0',
-        gap: '0.5rem',
-      }}>
+    <div className="collection-page">
+      <div className="collection-page-sidebar">
+        <h3>Lexicon group</h3>
+        <BrowseGroup prefix={nsidPrefix} active={nsid} />
+      </div>
+      <div className="collection-page-content">
+        <h2>
+          <NsidNice nsid={nsid} />
+        </h2>
         <div style={{
-          width: '12rem',
-          background: '#111',
+          display: 'flex',
+          alignItems: 'center',
+          margin: '0.5rem 0',
+          gap: '0.5rem',
         }}>
-          <Sparkline nsid={nsid} height={56} />
-        </div>
+          <div style={{
+            width: '12rem',
+            background: '#111',
+          }}>
+            <Sparkline nsid={nsid} height={56} />
+          </div>
 
-        <span className="big-stat">
-          <Fetch
-            using={get_collection_stat}
-            args={[host, nsid, statPeriod]}
-            ok={data => {
-              let n = '??';
-              if (statType === 'estimated_dids') {
-                n = data.dids_estimate;
-              } else if (countType === 'creates') {
-                n = data.creates;
-              } else if (countType === 'updates') {
-                n = data.updates;
-              } else {
-                n = data.deletes;
-              }
-              return n.toLocaleString();
-            }}
-          />
-        </span>
+          <span className="big-stat">
+            <Fetch
+              using={get_collection_stat}
+              args={[host, nsid, statPeriod]}
+              ok={data => {
+                let n = '??';
+                if (statType === 'estimated_dids') {
+                  n = data.dids_estimate;
+                } else if (countType === 'creates') {
+                  n = data.creates;
+                } else if (countType === 'updates') {
+                  n = data.updates;
+                } else {
+                  n = data.deletes;
+                }
+                return n.toLocaleString();
+              }}
+            />
+          </span>
 
-        <ButtonGroup
-          options={[
-            {val: 'day', label: 'daily'},
-            {val: 'week', label: 'weekly',
-          }]}
-          current={statPeriod}
-          onChange={p => setStatPeriod(p)}
-          subtle
-          vertical
-        />
-        <ButtonGroup
-          options={[
-            {val: 'estimated_dids', label: 'users'},
-            {val: 'records', label: 'records'},
-          ]}
-          current={statType}
-          onChange={t => statStatType(t)}
-          subtle
-          vertical
-        />
-        {statType === 'records' && (
           <ButtonGroup
             options={[
-              {val: 'creates', label: 'created'},
-              {val: 'updates', label: 'updated'},
-              {val: 'deletes', label: 'deleted'},
+              {val: 'day', label: 'daily'},
+              {val: 'week', label: 'weekly'},
+              {val: 'month', label: 'monthly'},
             ]}
-            current={countType}
-            onChange={t => setCountType(t)}
+            current={statPeriod}
+            onChange={p => setStatPeriod(p)}
             subtle
             vertical
           />
-        )}
+          <ButtonGroup
+            options={[
+              {val: 'estimated_dids', label: 'users'},
+              {val: 'records', label: 'records'},
+            ]}
+            current={statType}
+            onChange={t => statStatType(t)}
+            subtle
+            vertical
+          />
+          {statType === 'records' && (
+            <ButtonGroup
+              options={[
+                {val: 'creates', label: 'created'},
+                {val: 'updates', label: 'updated'},
+                {val: 'deletes', label: 'deleted'},
+              ]}
+              current={countType}
+              onChange={t => setCountType(t)}
+              subtle
+              vertical
+            />
+          )}
 
-      </div>
+        </div>
 
-      <h3 style={{margin: '2rem 0 1rem'}}>
-        {showMore ? 'Sample records' : 'Sample record: latest'}
-      </h3>
-      <Fetch
-        using={get_samples}
-        args={[host, nsid, 1]}
-        ok={samples => samples.length === 0
-          ? <p><em>no records seen</em></p>
-          : showMore
-            ? (
-              <>
-              {samples.map(s => (
-                <Sample
-                  key={`${s.did}/${s.rkey}`}
-                  sample={s}
-                  nsid={nsid}
-                />
-              ))}
-              {samples.length > 1 && (
-                <button onClick={() => setShowMore(false)}>
-                  - hide samples
-                </button>
-              )}
-              </>
-            )
-            : (
-              <>
-                <Sample
-                  key={`${samples[0].did}/${samples[0].rkey}`}
-                  sample={samples[0]}
-                  nsid={nsid}
-                />
+        <h3 style={{margin: '2rem 0 1rem'}}>
+          {showMore ? 'Sample records' : 'Sample record: latest'}
+        </h3>
+        <Fetch
+          using={get_samples}
+          args={[host, nsid, 1]}
+          ok={samples => samples.length === 0
+            ? <p><em>no records seen</em></p>
+            : showMore
+              ? (
+                <>
+                {samples.map(s => (
+                  <Sample
+                    key={`${s.did}/${s.rkey}`}
+                    sample={s}
+                    nsid={nsid}
+                  />
+                ))}
                 {samples.length > 1 && (
-                  <button onClick={() => setShowMore(true)}>
-                    + more samples
+                  <button onClick={() => setShowMore(false)}>
+                    - hide samples
                   </button>
                 )}
-              </>
-            )
-        }
-      />
-
-    </>
+                </>
+              )
+              : (
+                <>
+                  <Sample
+                    key={`${samples[0].did}/${samples[0].rkey}`}
+                    sample={samples[0]}
+                    nsid={nsid}
+                  />
+                  {samples.length > 1 && (
+                    <button onClick={() => setShowMore(true)}>
+                      + more samples
+                    </button>
+                  )}
+                </>
+              )
+          }
+        />
+      </div>
+    </div>
   );
 }
       // <p>

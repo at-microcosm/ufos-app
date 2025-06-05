@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { NavLink } from 'react-router'
+import { Link } from 'react-router'
 import { ButtonGroup } from '../../components/buttons'
 import { NsidTitle, NsidNice } from '../../components/nsid'
 import { Sparkline } from '../../components/sparkline'
@@ -84,7 +84,7 @@ export function WhatsHot() {
 function Hot({ hot, rank }) {
   return (
     <li style={{listStyle: 'none'}}>
-      <NavLink
+      <Link
         to={`/collection?nsid=${hot.current.nsid}`}
         style={{
           background: 'hsla(0, 0%, 50%, 0.1)',
@@ -153,7 +153,7 @@ function Hot({ hot, rank }) {
             </p>
           </div>
         </div>
-      </NavLink>
+      </Link>
     </li>
   );
 }
