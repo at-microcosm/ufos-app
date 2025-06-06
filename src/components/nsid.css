@@ -22,7 +22,38 @@
 }
 .nsid-nice.subtle:hover .nsid-name,
 .nsid-nice:not(.subtle) .nsid-name {
-  color: hsl(190, 86%, 72%);
+  color: #64ff6c;
+  opacity: 0.75;
+}
+
+.nsid-name .nsid-tld {
+  color: hsl(0, 0%, 50%);
+}
+.nsid-name .nsid-app {
+  color: hsl(0, 0%, 50%);
+}
+.nsid-name .nsid-mids {
+  color: hsl(0, 0%, 50%);
+}
+.nsid-name .nsid-group {
+  color: hsl(210, 94%, 72%);
+}
+.nsid-name .nsid-name {
+  color: #64ff6c;
+  opacity: 0.75;
+}
+
+.nsid-prefix .nsid-tld {
+  color: hsl(0, 0%, 50%);
+}
+.nsid-prefix .nsid-app {
+  color: hsl(0, 0%, 50%);
+}
+.nsid-prefix .nsid-mids {
+  color: hsl(0, 0%, 50%);
+}
+.nsid-prefix .nsid-group {
+  color: hsl(210, 94%, 72%);
 }
 
 .nsid-bad-bit {

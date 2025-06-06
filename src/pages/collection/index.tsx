@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 import { HostContext } from '../../context';
-import { useSearchParams } from 'react-router';
+import { Navigate, useSearchParams } from 'react-router';
 import { BrowseGroup } from '../../components/browse-group';
 import { NsidNice } from '../../components/nsid';
 import { niceDt } from '../../components/nice';
@@ -50,12 +50,16 @@ export function Collection({}) {
   const [countType, setCountType] = useState('creates');
   const [searchParams, _setSearchParams] = useSearchParams();
   const nsid = searchParams.get('nsid');
+  if (!nsid) {
+    return <Navigate replace to="/" />;
+  }
+
   const nsidPrefix = nsid.split('.').slice(0, -1).join('.');
 
   return (
     <div className="collection-page">
       <div className="collection-page-sidebar">
-        <h3>Lexicon group</h3>
+        <h3>Related lexicons</h3>
         <BrowseGroup prefix={nsidPrefix} active={nsid} />
       </div>
       <div className="collection-page-content">

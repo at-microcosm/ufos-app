@@ -2,14 +2,21 @@ import './nsid.css'
 
 const getBits = nsid => {
   const segments = nsid.split('.');
-
-  const tld = segments.length > 2 ? segments[0] : null; // assumed; todo: psl
-  const app = segments.length > 2 ? segments[1] : segments[0];
-  const mids = segments.length > 4
-    ? segments.slice(2, segments.length - 2)
-    : [];
-  const group = segments.length > 3 ? segments.at(-2) : null;
-  const name = segments.at(-1);
+  let tld, app, group, name;
+  let mids = [];
+  if (segments.length === 1) {
+    [name] = segments;
+  } else if (segments.length === 2) {
+    [tld, name] = segments;
+  } else if (segments.length === 3) {
+    [tld, group, name] = segments;
+  } else if (segments.length === 4) {
+    [tld, app, group, name] = segments;
+  } else {
+    let rest;
+    [tld, app, ...rest] = segments;
+    [name, group, ...mids] = rest.toReversed();
+  }
   return { tld, app, mids, group, name };
 };
 
@@ -45,6 +52,19 @@ export function NsidNice({ nsid, subtle }) {
   );
 }
 
+export function NsidName({ nsid }) {
+  const { tld, app, mids, group, name } = getBits(nsid);
+  return (
+    <span className={`nsid-name`}>
+      {tld && (<><span className="nsid-tld">{tld}</span>.</>)}
+      {app && (<><span className="nsid-app">{app}</span>.</>)}
+      {mids.length > 0 && (<><span className="nsid-mids">{mids.join('.')}</span>.</>)}
+      {group && (<><span className="nsid-group">{group}</span>.</>)}
+      {name && (<span className="nsid-name">{name}</span>)}
+    </span>
+  );
+}
+
 export function NsidBad({ nsid }) {
   const { tld, app, mids, group, name } = getBits(nsid);
   return (
@@ -55,6 +75,19 @@ export function NsidBad({ nsid }) {
       {mids.length > 0 && (<><span className="nsid-bad-bit">{mids.join('.')}</span>.</>)}
       {group && (<><span className="nsid-bad-bit">{group}</span>.</>)}
       {name && (<span className="nsid-bad-bit">{name}</span>)}
+    </span>
+  );
+}
+
+export function NsidPrefix({ prefix }) {
+  // hack but whatever: put a name segment on so we can reuse the normal nsid parsing
+  const { tld, app, mids, group } = getBits(`${prefix}.name`);
+  return (
+    <span className="nsid-prefix">
+        {tld && (<><span className="nsid-tld">{tld}</span>.</>)}
+        {app && (<><span className="nsid-app">{app}</span>.</>)}
+        {mids.length > 0 && (<><span className="nsid-mids">{mids.join('.')}</span>.</>)}
+        {group && (<><span className="nsid-group">{group}</span></>)}
     </span>
   );
 }
