@@ -24,7 +24,9 @@ export function BrowseGroup({ prefix, active }) {
       {parents.map(p => (
         <div>
           {'↰ '}
-          <NsidPrefix prefix={p} />
+          <Link to={`/collection?prefix=${p}`}>
+            <NsidPrefix prefix={p} />
+          </Link>
         </div>
       ))}
       <Fetch
@@ -92,7 +94,7 @@ export function BrowseSubGroup({ prefix }) {
         args={[host, prefix]}
         ok={data => data.children.map(c => {
           if (c.type === 'collection') {
-            return <Collection key={`c:${c.nsid}`} c={c} marker={<>&nbsp;&nbsp;↳ </>} />;
+            return <Collection key={`c:${c.nsid}`} c={c} marker={<>&nbsp;&nbsp;↳&nbsp;</>} />;
           } else {
             return <SubPrefix key={`p:${c.prefix}`} c={c} />;
           }

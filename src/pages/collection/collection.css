@@ -2,6 +2,9 @@
   display: flex;
   gap: 1rem;
 }
+.collection-page.empty {
+  align-items: center;
+}
 
 .collection-page-sidebar {
   background: #111;

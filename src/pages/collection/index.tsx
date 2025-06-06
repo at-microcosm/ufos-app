@@ -50,8 +50,21 @@ export function Collection({}) {
   const [countType, setCountType] = useState('creates');
   const [searchParams, _setSearchParams] = useSearchParams();
   const nsid = searchParams.get('nsid');
+
   if (!nsid) {
-    return <Navigate replace to="/" />;
+    const prefix = nsid ? null : searchParams.get('prefix');
+    if (!prefix) return <Navigate replace to="/" />;
+    return (
+      <div className="collection-page empty">
+        <div className="collection-page-sidebar">
+          <h3>Related lexicons</h3>
+          <BrowseGroup prefix={prefix} />
+        </div>
+        <div className="collection-page-content">
+          <p>← select a lexicon</p>
+        </div>
+      </div>
+    );
   }
 
   const nsidPrefix = nsid.split('.').slice(0, -1).join('.');
