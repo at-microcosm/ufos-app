@@ -39,12 +39,12 @@
 }
 
 .footer {
+  box-sizing: border-box;
   background: #111;
   width: 100%;
   text-align: center;
   margin: 3rem 0 0;
   padding: 0.667rem 0.5rem 0.333rem;
-  align-self: flex-end;
   border-radius: 0.5rem 0.5rem 0 0;
   font-size: 0.85rem;
 }
@@ -54,6 +54,23 @@
 
 @media screen and (max-width: 600px) {
   #root {
-    padding: 2rem 1rem;
+    padding: 3rem 1rem 0;
+  }
+  .footer {
+    border-radius: 0;
+    position: relative;
+  }
+  /* not like, the best way to do this, but */
+  /* extend the footer bg full-width */
+  .footer:before {
+    position: absolute;
+    display: block;
+    content: "";
+    height: 100%;
+    background: #111;
+    top: 0;
+    z-index: -1;
+    left: -1rem;
+    right: -1rem;
   }
 }

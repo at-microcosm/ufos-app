@@ -36,12 +36,7 @@ export function TopCollections() {
   const host = useContext(HostContext);
   return (
     <>
-      <div style={{
-        display: 'flex',
-        alignItems: 'baseline',
-        gap: '2rem',
-        justifyContent: 'center',
-      }}>
+      <div className="top-tiles">
         <h2>Top collections</h2>
         <ButtonGroup
           options={[

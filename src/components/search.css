@@ -1,3 +1,7 @@
+.search-input .input-group {
+  display: flex;
+  max-width: calc(100vw - 2rem);
+}
 
 .search-input .input-group input,
 .search-input .input-group button {
@@ -10,6 +14,8 @@
 }
 
 .search-input .input-group input {
+  min-width: 200px;
+  flex-shrink: 1;
   padding: 0.25rem 1rem;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -48,4 +54,15 @@
 }
 .search-input .eg .contraband {
   color: hsl(330, 81%, 60%);
+}
+
+@media screen and (max-width: 600px) {
+  .search-input .input-group input,
+  .search-input .input-group button {
+    font-size: 1rem;
+  }
+  .search-input .eg {
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
 }

@@ -8,3 +8,26 @@
 .hot-stuff-hidden {
   display: none;
 }
+
+.top-tiles {
+  display: flex;
+  align-items: baseline;
+  gap: 2rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.top-tiles > h2 {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+@media screen and (max-width: 600px) {
+  .top-tiles {
+    align-items: center;
+    gap: 1rem;
+  }
+  .button-group {
+    text-align: right;
+  }
+}

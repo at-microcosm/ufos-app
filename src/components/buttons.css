@@ -1,19 +1,4 @@
 
-/*button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  color: #64ff6c;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-family: inherit;
-  background-color: #100813;
-  cursor: pointer;
-  transition: border-color 0.19s;
-}
-button:hover {
-  border-color: #646cff;
-}
-*/
 button {
   cursor: pointer;
 }
@@ -51,4 +36,10 @@ button.subtle:hover {
 }
 .button-group > button.current.subtle {
   background: hsla(0, 0%, 0%, 0.2);
+}
+
+@media screen and (max-width: 600px) {
+  button.subtle {
+    font-size: 0.85rem;
+  }
 }

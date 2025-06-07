@@ -50,13 +50,10 @@ export function WhatsHot() {
   const host = useContext(HostContext);
   return (
     <>
-      <div style={{
-        display: 'flex',
-        alignItems: 'baseline',
-        gap: '2rem',
-        justifyContent: 'center',
-      }}>
-        <h2>What's hot</h2>
+      <div className="top-tiles">
+        <h2>
+          What's hot
+        </h2>
         <ButtonGroup
           options={[
             {val: 'day', label: 'today'},
