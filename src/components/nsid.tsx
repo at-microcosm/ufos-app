@@ -22,10 +22,10 @@ const getBits = nsid => {
 
 export function NsidTitle({ nsid }) {
   const bits = getBits(nsid);
-  if (bits.app && bits.name) {
+  if ((bits.app || bits.group) && bits.name) {
     return (
       <span className="nsid-title">
-        <span className="nsid-app">{bits.app}</span>
+        <span className="nsid-app">{bits.app ?? bits.group}</span>
         {' '}
         <span className="nsid-name">{bits.name}</span>
       </span>
