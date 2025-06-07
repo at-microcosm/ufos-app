@@ -1,0 +1,51 @@
+
+.search-input .input-group input,
+.search-input .input-group button {
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 1.4rem;
+  line-height: 2rem;
+  border-radius: 0.5rem;
+  border: 2px solid #2a2330;
+}
+
+.search-input .input-group input {
+  padding: 0.25rem 1rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-width: 1px;
+  background: #111;
+}
+.search-input .input-group input:focus {
+  outline: none;
+  background: #000;
+  border-color: #3a2340;
+}
+
+.search-input .input-group button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left-width: 1px;
+  padding: 0.25rem 1rem;
+  color: #888;
+}
+
+.search-input .eg {
+  font-size: 0.85rem;
+  display: flex;
+  gap: 0.5rem;
+  color: #888;
+  padding-left: calc(1rem + 2px);
+}
+.search-input .eg a {
+  opacity: 0.5;
+}
+.search-input .eg a:hover {
+  opacity: 1;
+}
+.search-input .eg li {
+  list-style: none;
+}
+.search-input .eg .contraband {
+  color: hsl(330, 81%, 60%);
+}

@@ -51,7 +51,7 @@ export function Status({}) {
   const host = useContext(HostContext);
   const [refresh, setRefresh] = useState(0);
   return (
-    <>
+    <div>
       <div style={{
         display: 'flex',
         alignItems: 'baseline'
@@ -87,6 +87,6 @@ export function Status({}) {
           </>
         )}
       />
-    </>
+    </div>
   );
 }

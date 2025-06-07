@@ -1,8 +1,16 @@
 #root {
+  box-sizing: border-box;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
-  position: relative;
+  padding: 3rem 2rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#root > .content {
+  flex-grow: 1;
 }
 
 .header {
@@ -13,17 +21,35 @@
 .header h1 a {
   color: #fff;
 }
+.header h1 a:hover {
+  color: #64ff6c;
+}
 
 .dev-shortcut {
   opacity: 0.666;
   position: absolute;
   top: 0;
   right: 2rem;
+  font-size: 0.85rem;
 }
 
 .dev-shortcut a.active  {
   color: yellow;
   font-weight: bold;
+}
+
+.footer {
+  background: #111;
+  width: 100%;
+  text-align: center;
+  margin: 3rem 0 0;
+  padding: 0.667rem 0.5rem 0.333rem;
+  align-self: flex-end;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-size: 0.85rem;
+}
+.footer p {
+  margin: 0;
 }
 
 @media screen and (max-width: 600px) {

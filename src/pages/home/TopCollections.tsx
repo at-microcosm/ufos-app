@@ -23,7 +23,7 @@ async function get_top_collections(host, period) {
   }[period]!;
   const since = new Date(now_truncated - period_ms).toISOString();
 
-  const q = `limit=8&since=${since}`;
+  const q = `limit=9&since=${since}`;
   const r = await fetch(`${host}/collections?order=dids-estimate&${q}`);
   if (!r.ok) {
     throw new Error(`request failed: ${r}`);
@@ -40,13 +40,15 @@ export function TopCollections() {
       <div style={{
         display: 'flex',
         alignItems: 'baseline',
-        gap: '2rem'
+        gap: '2rem',
+        justifyContent: 'center',
       }}>
         <h2>Top collections</h2>
         <ButtonGroup
           options={[
             {val: 'day', label: 'today'},
             {val: 'week', label: 'this week'},
+            {val: 'month', label: 'this month'},
           ]}
           current={period}
           onChange={setPeriod}
@@ -60,6 +62,7 @@ export function TopCollections() {
           <ol style={{
             display: 'flex',
             flexWrap: 'wrap',
+            justifyContent: 'center',
             gap: '1rem 0.9rem',
             padding: '0',
             margin: '0.6rem 0',

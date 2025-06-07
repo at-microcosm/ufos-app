@@ -2,7 +2,7 @@ import { useContext, useState } from 'react';
 import { HostContext } from '../../context';
 import { Navigate, useSearchParams } from 'react-router';
 import { BrowseGroup } from '../../components/browse-group';
-import { NsidNice } from '../../components/nsid';
+import { NsidNice, NsidPrefix } from '../../components/nsid';
 import { niceDt } from '../../components/nice';
 import { Sparkline } from '../../components/sparkline';
 import { Record } from '../../components/record';
@@ -61,6 +61,9 @@ export function Collection({}) {
           <BrowseGroup prefix={prefix} />
         </div>
         <div className="collection-page-content">
+          <h2>
+            <NsidPrefix prefix={prefix} />
+          </h2>
           <p>← select a lexicon</p>
         </div>
       </div>
@@ -156,7 +159,7 @@ export function Collection({}) {
           using={get_samples}
           args={[host, nsid, 1]}
           ok={samples => samples.length === 0
-            ? <p><em>no records seen</em></p>
+            ? <p><em>no records seen (or all have been deleted)</em></p>
             : showMore
               ? (
                 <>

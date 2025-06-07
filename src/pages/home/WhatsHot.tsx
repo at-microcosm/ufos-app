@@ -9,6 +9,7 @@ import { HostContext } from '../../context'
 const ONE_HOUR_MS = 60 * 60 * 1000;
 const ONE_DAY_MS = ONE_HOUR_MS * 24;
 const ONE_WEEK_MS = ONE_DAY_MS * 7;
+const ONE_MONTH_MS = ONE_WEEK_MS * 4;
 
 async function get_whats_hot(host, period) {
   // ufos buckets stats by hour
@@ -16,7 +17,11 @@ async function get_whats_hot(host, period) {
   const now_ms = +new Date();
   const now_hours = Math.floor(now_ms / ONE_HOUR_MS);
   const now_truncated = now_hours * ONE_HOUR_MS;
-  const period_ms = { day: ONE_DAY_MS, week: ONE_WEEK_MS }[period]!;
+  const period_ms = {
+    day: ONE_DAY_MS,
+    week: ONE_WEEK_MS,
+    month: ONE_MONTH_MS,
+  }[period]!;
   const since = new Date(now_truncated - period_ms).toISOString();
   const prior_since = new Date(now_truncated - 2*period_ms).toISOString();
 
@@ -49,13 +54,15 @@ export function WhatsHot() {
       <div style={{
         display: 'flex',
         alignItems: 'baseline',
-        gap: '2rem'
+        gap: '2rem',
+        justifyContent: 'center',
       }}>
         <h2>What's hot</h2>
         <ButtonGroup
           options={[
             {val: 'day', label: 'today'},
             {val: 'week', label: 'this week'},
+            {val: 'month', label: 'this month'},
           ]}
           current={period}
           onChange={setPeriod}
@@ -69,6 +76,7 @@ export function WhatsHot() {
           <ol style={{
             display: 'flex',
             flexWrap: 'wrap',
+            justifyContent: 'center',
             gap: '1rem 0.9rem',
             padding: '0',
             margin: '0.6rem 0',

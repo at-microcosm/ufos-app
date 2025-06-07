@@ -1,0 +1,10 @@
+.home-search {
+  margin: 2rem 0 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hot-stuff-hidden {
+  display: none;
+}

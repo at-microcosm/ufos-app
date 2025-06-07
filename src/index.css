@@ -21,6 +21,12 @@ a:hover {
   font-weight: bold;
   color: #85ff4b;
 }
+a.external {
+  color: skyblue;
+}
+a.external:after {
+  content: "↗";
+}
 
 body {
   margin: 0;
