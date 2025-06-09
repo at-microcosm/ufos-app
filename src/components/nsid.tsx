@@ -20,6 +20,15 @@ const getBits = nsid => {
   return { tld, app, mids, group, name };
 };
 
+const eighthBlocks = '▁▂▃▄▅▆▇█';
+const toBlock = n => {
+  if (n < 1) {
+    return ' ';
+  }
+  let block = Math.min(7, Math.floor(Math.log10(n)));
+  return eighthBlocks[block];
+}
+
 export function NsidTitle({ nsid }) {
   const bits = getBits(nsid);
   if ((bits.app || bits.group) && bits.name) {
@@ -88,6 +97,14 @@ export function NsidPrefix({ prefix }) {
         {app && (<><span className="nsid-app">{app}</span>.</>)}
         {mids.length > 0 && (<><span className="nsid-mids">{mids.join('.')}</span>.</>)}
         {group && (<><span className="nsid-group">{group}</span></>)}
+    </span>
+  );
+}
+
+export function NsidBar({ n }) {
+  return (
+    <span style={{background: 'hsla(0, 0%, 50%, 0.333)'}}>
+      {toBlock(n)}
     </span>
   );
 }

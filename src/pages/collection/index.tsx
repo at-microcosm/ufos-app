@@ -172,7 +172,7 @@ export function Collection({}) {
                 ))}
                 {samples.length > 1 && (
                   <button onClick={() => setShowMore(false)}>
-                    - hide samples
+                    - hide {samples.length - 1} samples
                   </button>
                 )}
                 </>
@@ -186,7 +186,7 @@ export function Collection({}) {
                   />
                   {samples.length > 1 && (
                     <button onClick={() => setShowMore(true)}>
-                      + more samples
+                      + show {samples.length - 1} more samples
                     </button>
                   )}
                 </>

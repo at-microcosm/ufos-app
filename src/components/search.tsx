@@ -1,17 +1,25 @@
-import { useContext, useRef, useState } from 'react';
+import { Suspense, use, useContext, useDeferredValue, useEffect, useRef, useState } from 'react';
+import { useThrottle } from '@uidotdev/usehooks';
 import { HostContext } from '../context';
 import { Link } from 'react-router';
-import { Fetch } from '../fetch';
-import { NsidNice } from './nsid';
+import { NsidNice, NsidBar } from './nsid';
 import './search.css';
 
-async function get_search_results(host, query) {
-  const res = await fetch(`${host}/search?q=${query}`);
-  if (!res.ok) {
-    throw new Error(`failed to fetch: ${await res.text()}`);
+// i don't like this hack
+let wow = null;
+function get_search_results(host, query) {
+  if (wow?.host === host && wow?.query === query) {
+    return wow.p;
   }
-  const data = await res.json();
-  return data.matches;
+  const p = fetch(`${host}/search?q=${query}`).then(async res => {
+    if (!res.ok) {
+      throw new Error(`failed to fetch: ${await res.text()}`);
+    }
+    const data = await res.json();
+    return data.matches;
+  });
+  wow = { host, query, p };
+  return p;
 }
 
 export function SearchInput({ onActivate }) {
@@ -60,7 +68,7 @@ export function SearchInput({ onActivate }) {
             <a href="#" onClick={querySetter('leaflet')}>leaflet</a>
           </div>
         ) : canSearch
-            ? <SearchResults query={normalized} />
+            ? <GetResults query={normalized} />
             : contraband
               ? (
                 <div className="eg">
@@ -76,21 +84,52 @@ export function SearchInput({ onActivate }) {
   );
 }
 
+function GetResults({ query }) {
+  const throttledQuery = useThrottle(query, 300);
+  const activeQuery = useDeferredValue(throttledQuery);
+  const stale = activeQuery !== query;
+
+  return (
+    <>
+      <Suspense fallback={<p className="searching">searching&hellip;</p>}>
+        <p className="searching">{ stale ? <>searching&hellip;</> : <>&nbsp;</>}</p>
+        <SearchResults query={activeQuery} />
+      </Suspense>
+    </>
+  );
+}
+
 function SearchResults({ query }) {
   const host = useContext(HostContext);
-  return (
-    <Fetch
-      using={get_search_results}
-      args={[host, query]}
-      ok={matches => matches.length === 0
-        ? <p><em>no matches found :(</em></p>
-        : matches.map(m => (
-          <div key={m.nsid} className="search-result-item">
-            <Link to={`/collection?nsid=${m.nsid}`}>
-              <NsidNice nsid={m.nsid} />
-            </Link>
-          </div>
-        ))}
-    />
-  );
+  let matches = use(get_search_results(host, query));
+  if (matches.length === 0) {
+    return <p><em>no matches found :(</em></p>;
+  }
+  const terms = query.split(' ');
+
+  const sorted = matches
+    .map(match => {
+      const popularity = match.dids_estimate >= 1
+        ? Math.log10(match.dids_estimate)
+        : 0; // ~0-8
+      const matchiness = terms
+        .filter(t => match.nsid.includes(t))
+        .map(t => t.length)
+        .reduce((a, t) => a + t, 0); // how many total characters matched
+      console.log({ nsid: match.nsid, popularity, matchiness });
+      return {...match, score: popularity + matchiness }
+    })
+    .toSorted((a, b) => b.score - a.score);
+
+  return sorted.map(m => (
+    <Link
+      key={m.nsid}
+      to={`/collection?nsid=${m.nsid}`}
+      className="search-result-item"
+    >
+      <span className="bar"><NsidBar n={m.dids_estimate} /></span>
+      {' '}
+      <NsidNice nsid={m.nsid} />
+    </Link>
+  ));
 }

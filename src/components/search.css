@@ -36,12 +36,14 @@
   color: #888;
 }
 
-.search-input .eg {
+.search-input .eg,
+.search-input .searching {
   font-size: 0.85rem;
   display: flex;
   gap: 0.5rem;
   color: #888;
   padding-left: calc(1rem + 2px);
+  margin: 0;
 }
 .search-input .eg a {
   opacity: 0.5;
@@ -54,6 +56,17 @@
 }
 .search-input .eg .contraband {
   color: hsl(330, 81%, 60%);
+}
+
+.search-input .search-result-item {
+  display: block;
+  background: #111;
+  margin: 0.5rem 0;
+  padding: 0.25rem 0.5rem;
+}
+
+.search-input .search-result-item .bar {
+  color: #888;
 }
 
 @media screen and (max-width: 600px) {
