@@ -84,6 +84,7 @@ export function WhatsHot() {
                 nsid={hot.current.nsid}
                 activeCount={hot.current.dids_estimate}
                 change={hot.change}
+                rankPeriod={period}
               />
             ))}
           </ol>

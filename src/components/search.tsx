@@ -114,7 +114,7 @@ function SearchResults({ query }) {
         : 0; // ~0-8
       const matchiness = terms
         .filter(t => match.nsid.includes(t))
-        .map(t => t.length)
+        .map(t => Math.pow(t.length, 1.618))
         .reduce((a, t) => a + t, 0); // how many total characters matched
       console.log({ nsid: match.nsid, popularity, matchiness });
       return {...match, score: popularity + matchiness }
@@ -127,7 +127,12 @@ function SearchResults({ query }) {
       to={`/collection?nsid=${m.nsid}`}
       className="search-result-item"
     >
-      <span className="bar"><NsidBar n={m.dids_estimate} /></span>
+      <span
+        className="bar"
+        title={`${m.dids_estimate.toLocaleString()} unique user${m.dids_estimate === 1 ? '' : 's'}`}
+      >
+        <NsidBar n={m.dids_estimate} />
+      </span>
       {' '}
       <NsidNice nsid={m.nsid} />
     </Link>

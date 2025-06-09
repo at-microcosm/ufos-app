@@ -1,0 +1,27 @@
+.sparkline-wrapper {
+  position: relative;
+}
+
+.sparkline-wrapper.last-seg:before {
+  position: absolute;
+  display: block;
+  box-sizing: border-box;
+  content: "";
+  height: 100%;
+  right: 4px;
+  background: linear-gradient(hsla(0, 0%, 50%, 0), #111);
+  /*border-bottom: 0.5px dotted #888;*/
+  border-left: 0.5px dotted #888;
+}
+
+.sparkline-wrapper.week-for-day:before {
+  width: calc((100% - 8px) * 2 / 13);
+}
+
+.sparkline-wrapper.month-for-week:before {
+  width: calc((100% - 8px) * 2 / 7);
+}
+
+.sparkline-wrapper.quarter-for-month:before {
+  width: calc((100% - 8px) * 2 / 11);
+}

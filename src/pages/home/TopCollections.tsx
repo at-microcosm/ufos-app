@@ -67,6 +67,7 @@ export function TopCollections() {
                 rank={i+1}
                 nsid={top.nsid}
                 activeCount={top.dids_estimate}
+                rankPeriod={period}
               />
             ))}
           </ol>

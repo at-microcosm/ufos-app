@@ -3,7 +3,13 @@ import { NsidTitle, NsidNice } from '../../components/nsid'
 import { Sparkline } from '../../components/sparkline'
 
 
-export function TopTile({ rank, nsid, activeCount, change }) {
+export function TopTile({ rank, nsid, activeCount, change, rankPeriod }) {
+  const sparkPeriod = {
+    day: 'week',
+    week: 'month',
+    month: 'quarter',
+  }[rankPeriod];
+  const sparkInterval = rankPeriod;
   return (
     <li style={{listStyle: 'none'}}>
       <Link
@@ -51,7 +57,12 @@ export function TopTile({ rank, nsid, activeCount, change }) {
             display: 'flex',
             alignItems: 'flex-end',
           }}>
-            <Sparkline nsid={nsid} />
+            <Sparkline
+              nsid={nsid}
+              period={sparkPeriod}
+              interval={sparkInterval}
+              lastSegment
+            />
             <p style={{
               margin: '0',
               textAlign: 'right',

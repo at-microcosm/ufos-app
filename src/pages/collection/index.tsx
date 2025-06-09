@@ -50,7 +50,12 @@ export function Collection({}) {
   const [countType, setCountType] = useState('creates');
   const [searchParams, _setSearchParams] = useSearchParams();
   const nsid = searchParams.get('nsid');
-
+  const sparkPeriod = {
+    day: 'week',
+    week: 'month',
+    month: 'quarter',
+  }[statPeriod];
+  const sparkMetric = statType === 'estimated_dids' ? 'dids_estimate' : countType;
   if (!nsid) {
     const prefix = nsid ? null : searchParams.get('prefix');
     if (!prefix) return <Navigate replace to="/" />;
@@ -90,9 +95,14 @@ export function Collection({}) {
         }}>
           <div style={{
             width: '12rem',
-            background: '#111',
           }}>
-            <Sparkline nsid={nsid} height={56} />
+            <Sparkline
+              nsid={nsid}
+              height={56}
+              period={sparkPeriod}
+              interval={statPeriod}
+              metric={sparkMetric}
+            />
           </div>
 
           <span className="big-stat">

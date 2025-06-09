@@ -35,7 +35,7 @@ button.subtle:hover {
   color: #99bb77;
 }
 .button-group > button.current.subtle {
-  background: hsla(0, 0%, 0%, 0.2);
+  background: #111; /*hsla(0, 0%, 0%, 0.2);*/
 }
 
 @media screen and (max-width: 600px) {
