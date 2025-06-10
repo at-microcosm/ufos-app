@@ -3,7 +3,8 @@
   font-weight: normal;
   line-height: 1.5rem;
 
-  color-scheme: light dark;
+  /*color-scheme: light dark;*/
+  color-scheme: dark;
   color: #e6ece6;
   background-color: #221828;
 
@@ -62,7 +63,7 @@ hr {
   border-top: 1px dotted hsla(0, 0%, 50%, 0.5);
 }
 
-@media (prefers-color-scheme: light) {
+/*@media (prefers-color-scheme: light) {
   :root {
     color: #31253e;
     background-color: #fcfffc;
@@ -73,4 +74,4 @@ hr {
   button {
     background-color: #f0f6f0;
   }
-}
+}*/
