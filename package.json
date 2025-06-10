@@ -7,7 +7,6 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "just-build": "vite build",
-    "gh-pages": "vite build && cp docs/CNAME dist/ && rm -fr docs && mv dist docs && mkdir -p docs/{status,collection} && cp docs/index.html docs/status/index.html && cp docs/index.html docs/collection/index.html",
     "lint": "eslint .",
     "preview": "vite preview"
   },
