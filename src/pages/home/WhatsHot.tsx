@@ -22,7 +22,7 @@ async function get_whats_hot(host, period) {
     month: ONE_MONTH_MS,
   }[period]!;
   const since = new Date(now_truncated - period_ms).toISOString();
-  const prior_since = new Date(now_truncated - 2*period_ms).toISOString();
+  const prior_since = new Date(now_truncated - 2.75*period_ms).toISOString();
 
   const [recent, before] = await Promise.all(
     [

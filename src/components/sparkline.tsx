@@ -46,23 +46,32 @@ export function Sparkline({ nsid, metric, height, period, interval, lastSegment 
   interval = interval ?? 'day';
   const lastSegName = `${period}-for-${interval}`;
   return (
-    <div className={`sparkline-wrapper ${lastSegName ? `last-seg ${lastSegName}` : ''}`}>
-      <Fetch
-        key={nsid}
-        using={get_timeseries}
-        args={[host, nsid, period, interval]}
-        ok={({ series, range }) => (
+    <Fetch
+      key={nsid}
+      using={get_timeseries}
+      args={[host, nsid, period, interval]}
+      loading={() => (
+        <div
+          style={{ height: height ?? 32 }}
+          className="sparkline-wrapper sparkline-loading"
+        >
+          <span>Loading&hellip;</span>
+        </div>
+      )}
+      ok={({ series, range }) => (
+        <div className={`sparkline-wrapper ${lastSegName ? `last-seg ${lastSegName}` : ''}`}>
           <SparkLineChart
             xAxis={{ data: range }}
             yAxis={{ min: 0 }}
             data={series[nsid].map(d => d[metric])}
             valueFormatter={v => `${v.toLocaleString()} unique users`}
             height={height ?? 32}
+            color='hsl(210, 94%, 63%)'
             showTooltip
             showHighlight
           />
-        )}
-      />
-    </div>
+        </div>
+      )}
+    />
   );
 }

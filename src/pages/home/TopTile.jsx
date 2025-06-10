@@ -57,18 +57,21 @@ export function TopTile({ rank, nsid, activeCount, change, rankPeriod }) {
             display: 'flex',
             alignItems: 'flex-end',
           }}>
-            <Sparkline
-              nsid={nsid}
-              period={sparkPeriod}
-              interval={sparkInterval}
-              lastSegment
-            />
+            <div style={{
+              flexGrow: '1',
+            }}>
+              <Sparkline
+                nsid={nsid}
+                period={sparkPeriod}
+                interval={sparkInterval}
+                lastSegment
+              />
+            </div>
             <p style={{
               margin: '0',
               textAlign: 'right',
               fontSize: '0.8rem',
               lineHeight: '0.8rem',
-              flexShrink: '0',
             }}>
               <strong style={change ? {} : { color: '#ccc' }}>
                 {activeCount.toLocaleString()}

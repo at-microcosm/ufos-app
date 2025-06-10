@@ -57,6 +57,11 @@ p {
   margin: 0.75rem 0;
 }
 
+hr {
+  border: none;
+  border-top: 1px dotted hsla(0, 0%, 50%, 0.5);
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #31253e;

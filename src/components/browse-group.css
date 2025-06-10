@@ -1,0 +1,38 @@
+.browse-group-item {
+  display: flex;
+  margin: 0.25em 0;
+}
+
+.browse-group-item.sub-group {
+  font-size: 0.85rem;
+  display: flex;
+  margin: 0;
+}
+
+.browse-group-item.vanity:not(:hover) {
+  opacity: 0.667;
+}
+
+.browse-group-item.vanity.first {
+  margin-top: 0.5rem;
+}
+
+.browse-group-item .bar {
+  color: hsla(330, 81%, 60%, 0.667)
+}
+
+.browse-group-sub {
+  display: flex;
+}
+.browse-group-sub:before {
+  content: " ";
+}
+
+.browse-sub-group-show-all {
+  font-size: 0.85rem;
+  margin: 0.25rem 0 0.75rem;
+}
+
+.browse-sub-group-show-all button {
+  color: #888;
+}

@@ -2,6 +2,18 @@
   position: relative;
 }
 
+.sparkline-wrapper.sparkline-loading {
+  background: #111;
+  display: flex;
+  font-style: italic;
+  opacity: 0.5;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  color: #888;
+  font-size: 0.85rem;
+}
+
 .sparkline-wrapper.last-seg:before {
   position: absolute;
   display: block;
@@ -10,7 +22,6 @@
   height: 100%;
   right: 4px;
   background: linear-gradient(hsla(0, 0%, 50%, 0), #111);
-  /*border-bottom: 0.5px dotted #888;*/
   border-left: 0.5px dotted #888;
 }
 
