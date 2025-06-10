@@ -34,11 +34,6 @@
   white-space: pre-wrap;
 }
 
-.json-string .content.showing-all:hover {
-  cursor: pointer;
-  color: #fff;
-}
-
 .json-string button.string-more {
   line-height: 1rem;
   display: inline-block;
@@ -51,6 +46,12 @@
   letter-spacing: 0.1rem;
   opacity: 0.5;
   color: inherit;
+}
+
+.json-string button.string-more.less {
+  padding: 0.03rem 0.5rem 0.09rem;
+  margin-left: 0.1rem;
+  text-align: center;
 }
 
 .json-string button.string-more:hover {

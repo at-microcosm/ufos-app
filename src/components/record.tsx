@@ -100,9 +100,18 @@ function Str({ s }) {
         {longer
           ? showAll
             ? (
-              <span className="content showing-all" onClick={() => setShowAll(false)}>
-                {s}
-              </span>
+              <>
+                <span className="content showing-all">
+                  {s}
+                </span>
+                <button
+                  className="string-more less"
+                  onClick={() => setShowAll(false)}
+                  title="show less"
+                >
+                  «
+                </button>
+              </>
             )
             : (
               <>
