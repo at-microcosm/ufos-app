@@ -1,6 +1,7 @@
 .search-input .input-group {
   display: flex;
   max-width: calc(100vw - 2rem);
+  justify-content: center;
 }
 
 .search-input .input-group input,
