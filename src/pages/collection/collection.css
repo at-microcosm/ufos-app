@@ -10,6 +10,15 @@
 
 .collection-page h2 {
   word-break: break-word;
+  text-align: center;
+}
+
+.preview-main-selector {
+  font-size: 1.2rem;
+  margin: 3rem 0 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
 }
 
 .collection-page-sidebar {
@@ -24,6 +33,14 @@
 .collection-page-sidebar h3 {
   font-size: 1rem;
   margin-bottom: 1rem;
+}
+
+.stats-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem 0;
+  gap: 0.5rem;
 }
 .collection-page-sparkline {
   flex-basis: 12rem;
@@ -69,6 +86,44 @@
 .collection-record-sample-json {
   word-break: break-word;
   white-space: pre-wrap;
+}
+
+.preview-api {
+  margin: 3rem 0;
+}
+.preview-api h4 {
+  margin: 2rem 0 1rem;
+}
+.preview-api-example {
+  font: inherit;
+  background: #111;
+  padding: 0.5rem;
+  color: #999;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+.preview-api-example a {
+  color: inherit;
+}
+.preview-api-example .method {
+  color: hsl(330, 81%, 60%);
+}
+.preview-api-example .host {
+  color: hsl(280, 94%, 72%);
+}
+.preview-api-example .path {
+  color: hsl(210, 94%, 72%);
+}
+.preview-api-example .var {
+  color: #64ff6c;
+  opacity: 0.75;
+}
+
+
+.coming-soon {
+  margin: 3rem 0 5rem;
+  font-style: italic;
+  max-width: 36rem;
 }
 
 @media screen and (max-width: 600px) {

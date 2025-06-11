@@ -16,11 +16,14 @@ button:not(.subtle) {
 button.subtle {
   background: transparent;
   border: 0;
-  transition: background 0.19s, color 0.19s;
 }
 button.subtle:hover {
   color: inherit;
   background: hsla(0, 0%, 0%, 0.3);
+}
+
+button.big {
+  padding: 0.25rem 0.75rem;
 }
 
 .button-group.vertical {

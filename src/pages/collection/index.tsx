@@ -36,6 +36,7 @@ async function get_collection_stat(host, nsid, period) {
 
 export function Collection({}) {
   const host = useContext(HostContext);
+  const [currentPreview, setCurrentPreview] = useState('samples');
   const [showMore, setShowMore] = useState(false);
   const [statPeriod, setStatPeriod] = useState('day');
   const [statType, statStatType] = useState('estimated_dids');
@@ -92,12 +93,7 @@ export function Collection({}) {
         <h2>
           <NsidNice nsid={nsid} />
         </h2>
-        <div style={{
-          display: 'flex',
-          alignItems: 'center',
-          margin: '0.5rem 0',
-          gap: '0.5rem',
-        }}>
+        <div className="stats-summary">
           <div className="collection-page-sparkline">
             <Sparkline
               nsid={nsid}
@@ -166,51 +162,136 @@ export function Collection({}) {
 
         </div>
 
-        <h3 style={{margin: '2rem 0 1rem'}}>
-          {showMore ? 'Sample records' : 'Sample record: latest'}
+        <h3 className="preview-main-selector">
+          <ButtonGroup
+            options={[
+              {val: 'samples', label: 'Samples'},
+              {val: 'lexicon', label: 'Lexicon'},
+              {val: 'stats', label: 'Stats'},
+              {val: 'api', label: 'API'},
+            ]}
+            current={currentPreview}
+            onChange={setCurrentPreview}
+            big
+            subtle
+          />
         </h3>
-        <GetJson
-          endpoint="/records"
-          params={{ collection: nsid, limit: 1 }}
-          ok={samples => samples.length === 0
-            ? <p><em>no records seen (or all have been deleted)</em></p>
-            : showMore
-              ? (
-                <>
-                {samples.map(s => (
-                  <Sample
-                    key={`${s.did}/${s.rkey}`}
-                    sample={s}
-                    nsid={nsid}
-                  />
-                ))}
-                {samples.length > 1 && (
-                  <button
-                    onClick={() => setShowMore(false)}
-                  >
-                    - hide {samples.length - 1} samples
-                  </button>
-                )}
-                </>
-              )
-              : (
-                <>
-                  <Sample
-                    key={`${samples[0].did}/${samples[0].rkey}`}
-                    sample={samples[0]}
-                    nsid={nsid}
-                  />
+
+        <div style={currentPreview === 'samples' ? {} : { display: 'none' }}>
+          <GetJson
+            endpoint="/records"
+            params={{ collection: nsid, limit: 1 }}
+            ok={samples => samples.length === 0
+              ? <p><em>no records seen (or all have been deleted)</em></p>
+              : showMore
+                ? (
+                  <>
+                  {samples.map(s => (
+                    <Sample
+                      key={`${s.did}/${s.rkey}`}
+                      sample={s}
+                      nsid={nsid}
+                    />
+                  ))}
                   {samples.length > 1 && (
                     <button
-                      onClick={() => setShowMore(true)}
+                      onClick={() => setShowMore(false)}
                     >
-                      + show {samples.length - 1} more samples
+                      - hide {samples.length - 1} samples
                     </button>
                   )}
-                </>
-              )
-          }
-        />
+                  </>
+                )
+                : (
+                  <>
+                    <Sample
+                      key={`${samples[0].did}/${samples[0].rkey}`}
+                      sample={samples[0]}
+                      nsid={nsid}
+                    />
+                    {samples.length > 1 && (
+                      <button
+                        onClick={() => setShowMore(true)}
+                      >
+                        + show {samples.length - 1} more samples
+                      </button>
+                    )}
+                  </>
+                )
+            }
+          />
+        </div>
+        {currentPreview === 'lexicon' && (
+          <div className="coming-soon">
+            <p>Lexicon resolution, definition previews, and validation are coming soon</p>
+          </div>
+        )}
+        {currentPreview === 'stats' && (
+          <div className="coming-soon">
+            <p>More detailed stats coming here soon!</p>
+            <p>UFOs records per-collection counts, aggregated hourly. Its unique user estimates can be accurately merged across arbitrary time spans and collection groups.</p>
+            <p>
+              <a href="https://github.com/uniphil/cardinality-estimator-safe" target="_blank" className="external">
+                HyperLogLogs
+              </a>
+              {' are '}
+              <a href="https://antirez.com/news/75" target="_blank" className="external">
+                cool
+              </a>
+              !
+            </p>
+          </div>
+        )}
+        {currentPreview === 'api' && (
+          <div className="preview-api">
+            <p>Use <NsidNice nsid={nsid} /> in your own project!</p>
+            <h4>
+              Get latest records with the
+              {' '}
+              <a href={`${host}/#tag/default/get/records`} target="_blank" className="external">
+                UFOs-API
+              </a>
+            </h4>
+            <pre className="preview-api-example">
+              <span className="method">GET</span>
+              {' '}
+              <a href={`${host}/records?collection=${nsid}`} target="_blank">
+                <span className="host">{host}</span>
+                <span className="path">/records</span>
+                ?collection=
+                <span className="var">{nsid}</span>
+              </a>
+            </pre>
+            <p>
+              See the
+              {' '}
+              <a href={`${host}`} target="_blank" className="external">
+                API documentation
+              </a>
+              {' '}
+              for more examples.
+            </p>
+
+            <h4>
+              Subscribe to real-time events with
+              {' '}
+              <a href="https://github.com/bluesky-social/jetstream" target="_blank" className="external">
+                Jetstream
+              </a>
+            </h4>
+            <pre className="preview-api-example">
+              <a
+                href={`https://pdsls.dev/jetstream?instance=wss%3A%2F%2Fjetstream.fire.hose.cam%2Fsubscribe&collections=${nsid}`}
+                target="_blank"
+              >
+                <span className="host">wss://jetstream.fire.hose.cam</span>
+                <span className="path">/subscribe</span>
+                ?wantedCollections=
+                <span className="var">{nsid}</span>
+              </a>
+            </pre>
+          </div>
+        )}
       </div>
     </div>
   );
