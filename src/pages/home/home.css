@@ -9,12 +9,20 @@
   display: none;
 }
 
+.browse-all {
+  text-align: center;
+  margin: 2rem 0 3rem;
+}
+.browse-all:not(:hover) {
+  opacity: 0.5;
+}
+
 .top-tiles {
   display: flex;
   align-items: baseline;
   gap: 2rem;
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 3rem;
 }
 
 .top-tiles > h2 {
