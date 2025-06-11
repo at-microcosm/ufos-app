@@ -116,7 +116,6 @@ function SearchResults({ query }) {
         .filter(t => match.nsid.includes(t))
         .map(t => Math.pow(t.length, 1.618))
         .reduce((a, t) => a + t, 0); // how many total characters matched
-      console.log({ nsid: match.nsid, popularity, matchiness });
       return {...match, score: popularity + matchiness }
     })
     .toSorted((a, b) => b.score - a.score);
@@ -124,7 +123,7 @@ function SearchResults({ query }) {
   return sorted.map(m => (
     <Link
       key={m.nsid}
-      to={`/collection?nsid=${m.nsid}`}
+      to={`/collection/?nsid=${m.nsid}`}
       className="search-result-item"
     >
       <span

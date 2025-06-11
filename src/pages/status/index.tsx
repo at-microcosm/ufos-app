@@ -1,15 +1,6 @@
-import { useContext, useState } from 'react'
-import { HostContext } from '../../context'
-import { Fetch } from '../../fetch'
+import { useState } from 'react'
+import { GetJson } from '../../fetch'
 import { niceDt } from '../../components/nice'
-
-async function get_status(host: string): any {
-  const res = await fetch(`${host}/meta`);
-  if (!res.ok) {
-    throw new Error(`request failed: ${res}`);
-  }
-  return await res.json();
-}
 
 const Cursor = ({ cursor }) => {
   if (!cursor) return '??';
@@ -48,7 +39,6 @@ const Size = ({ bytes }) => {
 }
 
 export function Status({}) {
-  const host = useContext(HostContext);
   const [refresh, setRefresh] = useState(0);
   return (
     <div>
@@ -70,9 +60,8 @@ export function Status({}) {
       </div>
       <p><i>Note: this info may be up to 15s stale due to caching</i></p>
 
-      <Fetch
-        using={get_status}
-        args={[host, refresh]}
+      <GetJson
+        endpoint="/meta"
         ok={status => (
           <>
             <h3 style={{margin: '2rem 0 1rem'}}>Firehose</h3>

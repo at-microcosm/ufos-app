@@ -13,7 +13,7 @@ export function TopTile({ rank, nsid, activeCount, change, rankPeriod }) {
   return (
     <li style={{listStyle: 'none'}}>
       <Link
-        to={`/collection?nsid=${nsid}`}
+        to={`/collection/?nsid=${nsid}`}
         style={{
           background: 'hsla(0, 0%, 50%, 0.1)',
           boxSizing: 'border-box',

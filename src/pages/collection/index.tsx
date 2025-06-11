@@ -1,13 +1,13 @@
 import { useContext, useState } from 'react';
 import { HostContext } from '../../context';
-import { Navigate, useSearchParams } from 'react-router';
+import { Link, Navigate, useSearchParams } from 'react-router';
 import { BrowseGroup } from '../../components/browse-group';
 import { NsidNice, NsidPrefix } from '../../components/nsid';
 import { niceDt } from '../../components/nice';
 import { Sparkline } from '../../components/sparkline';
 import { Record } from '../../components/record';
 import { ButtonGroup } from '../../components/buttons';
-import { Fetch } from '../../fetch';
+import { Fetch, GetJson } from '../../fetch';
 import './collection.css';
 
 // TODO refactor out with what-hot (/top collections, ...)
@@ -15,14 +15,6 @@ const ONE_HOUR_MS = 60 * 60 * 1000;
 const ONE_DAY_MS = ONE_HOUR_MS * 24;
 const ONE_WEEK_MS = ONE_DAY_MS * 7;
 const ONE_MONTH_MS = ONE_WEEK_MS * 4;
-
-async function get_samples(host, nsid, limit) {
-  const res = await fetch(`${host}/records?collection=${nsid}&limit=${limit}`);
-  if (!res.ok) {
-    throw new Error(`request failed: ${res}`);
-  }
-  return await res.json();
-}
 
 async function get_collection_stat(host, nsid, period) {
   const now_ms = +new Date();
@@ -56,6 +48,17 @@ export function Collection({}) {
     month: 'quarter',
   }[statPeriod];
   const sparkMetric = statType === 'estimated_dids' ? 'dids_estimate' : countType;
+
+  const browseAll = (
+    <div className="browse-all">
+      <hr />
+      →&nbsp;
+      <Link to="/all">
+        browse <em>all</em> lexicons
+      </Link>
+    </div>
+  );
+
   if (!nsid) {
     const prefix = nsid ? null : searchParams.get('prefix');
     if (!prefix) return <Navigate replace to="/" />;
@@ -64,6 +67,7 @@ export function Collection({}) {
         <div className="collection-page-sidebar">
           <h3>Related lexicons</h3>
           <BrowseGroup prefix={prefix} />
+          {browseAll}
         </div>
         <div className="collection-page-content">
           <h2>
@@ -82,6 +86,7 @@ export function Collection({}) {
       <div className="collection-page-sidebar">
         <h3>Related lexicons</h3>
         <BrowseGroup prefix={nsidPrefix} active={nsid} />
+        {browseAll}
       </div>
       <div className="collection-page-content">
         <h2>
@@ -164,9 +169,9 @@ export function Collection({}) {
         <h3 style={{margin: '2rem 0 1rem'}}>
           {showMore ? 'Sample records' : 'Sample record: latest'}
         </h3>
-        <Fetch
-          using={get_samples}
-          args={[host, nsid, 1]}
+        <GetJson
+          endpoint="/records"
+          params={{ collection: nsid, limit: 1 }}
           ok={samples => samples.length === 0
             ? <p><em>no records seen (or all have been deleted)</em></p>
             : showMore

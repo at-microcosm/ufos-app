@@ -1,3 +1,2 @@
-import { Fetch } from './Fetch';
-
-export { Fetch };
+export { Fetch } from './Fetch';
+export { GetJson } from './GetJson';

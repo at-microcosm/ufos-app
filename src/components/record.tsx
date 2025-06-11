@@ -9,16 +9,26 @@ export function Record({ record, nsid }) {
   const { $type, ...rest } = record;
   return (
     <>
-      <div className="record-type">
-        {$type === nsid && (
-            <div title="record's $type did not match the collection NSID">
+      {$type === nsid
+        ? (
+            <div className="record-type">
               <span className="record-type-ok">$type</span>
-              :{' '}
-              <NsidNice nsid={$type} />
+              :&nbsp;
+              <span className="record-type-nsid">
+                <NsidNice nsid={$type} />
+              </span>
             </div>
-          )
-        }
-      </div>
+        )
+        : (
+            <div className="record-type" title="record's $type did not match the collection NSID">
+              <span className="record-type-mismatch">$type</span>
+              :{' '}
+              <span  className="record-type-nsid">
+                <NsidNice nsid={$type} />
+              </span>
+            </div>
+        )
+      }
       <Obj o={rest} d={0} />
     </>
   );

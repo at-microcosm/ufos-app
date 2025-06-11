@@ -1,12 +1,14 @@
 .record-type {
   opacity: 0.667;
+  display: flex;
 }
-
+.record-type-nsid {
+  word-break: break-word;
+}
 .record-type-ok {
   font-weight: bold;
   color: hsl(280, 94%, 72%);
 }
-
 .record-type-mismatch {
   color: #c66;
 }

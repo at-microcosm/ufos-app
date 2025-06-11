@@ -8,12 +8,17 @@
   align-items: center;
 }
 
+.collection-page h2 {
+  word-break: break-word;
+}
+
 .collection-page-sidebar {
   background: #111;
   margin: 2rem 0 0;
   padding: 0.5rem;
   max-width: 18rem;
   overflow-x: auto;
+  flex-shrink: 1.3;
 }
 .collection-page-sidebar h3 {
   font-size: 1rem;
@@ -24,6 +29,16 @@
 }
 .big-stat {
   font-size: 1.5rem;
+}
+
+.collection-page .browse-all {
+  margin-top: 2rem;
+}
+.collection-page .browse-all:not(:hover) {
+  opacity: 0.5;
+}
+.collection-page .browse-all a {
+  font-size: 0.85rem;
 }
 
 @media screen and (max-width: 600px) {
