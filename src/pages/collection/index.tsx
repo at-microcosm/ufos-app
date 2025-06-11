@@ -244,7 +244,7 @@ export function Collection({}) {
         )}
         {currentPreview === 'api' && (
           <div className="preview-api">
-            <p>Use <NsidNice nsid={nsid} /> in your own project!</p>
+            <p>Use <NsidNice nsid={nsid} /> records in your own project!</p>
             <h4>
               Get latest records with the
               {' '}
