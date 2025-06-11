@@ -44,12 +44,27 @@
   width: 100%;
   text-align: center;
   margin: 3rem 0 0;
-  padding: 0.667rem 0.5rem 0.333rem;
+  padding: 0.667rem 0.5rem 0;
   border-radius: 0.5rem 0.5rem 0 0;
   font-size: 0.85rem;
 }
 .footer p {
   margin: 0;
+}
+.footer p.from {
+  color: #888;
+}
+.footer p.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+.footer p.secret-dev {
+  font-size: 0.667rem;
+}
+.footer p.secret-dev:not(:hover) {
+  opacity: 0.5;
 }
 
 @media screen and (max-width: 600px) {

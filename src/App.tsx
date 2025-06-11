@@ -27,19 +27,6 @@ function App({ children }) {
         <Link to={ufosHost} target="_blank" className="external">
           docs
         </Link>
-        {' '}
-        <Link to="https://github.com/at-microcosm/links/tree/main/ufos" target="_blank" className="external">
-          source
-        </Link>
-        {' '}
-        <label>
-          <input
-            type="checkbox"
-            onChange={e => setDev(e.target.checked)}
-            checked={isDev(ufosHost)}
-          />
-          localhost
-        </label>
       </div>
       <div className="header">
         <h1>
@@ -59,14 +46,42 @@ function App({ children }) {
         <p className="from">
           UFOs is part of
           {' '}
-          <Link to="https://microcosm.blue" className="external" target="_blank">
-            microcosm
-          </Link>
-          ,
-          {' follow at '}
-          <Link to="https://bsky.app/profile/microcosm.blue" className="external" target="_blank">
-            @microcosm.blue
-          </Link>
+          <a href="https://microcosm.blue" className="external" target="_blank">
+            <span style={{ color: '#f396a9' }}>m</span>
+            <span style={{ color: '#f49c5c' }}>i</span>
+            <span style={{ color: '#c7b04c' }}>c</span>
+            <span style={{ color: '#92be4c' }}>r</span>
+            <span style={{ color: '#4ec688' }}>o</span>
+            <span style={{ color: '#51c2b6' }}>c</span>
+            <span style={{ color: '#54bed7' }}>o</span>
+            <span style={{ color: '#8fb1f1' }}>s</span>
+            <span style={{ color: '#ce9df1' }}>m</span>
+
+          </a>
+        </p>
+        <p className="actions">
+          <a href="https://bsky.app/profile/microcosm.blue" target="_blank" className="external">
+            🦋 follow
+          </a>
+          <a href="https://github.com/sponsors/uniphil/" target="_blank" className="external">
+            💸 support
+          </a>
+          <a href="https://github.com/at-microcosm/links/tree/main/ufos" target="_blank" className="external">
+            👩🏻‍💻 source
+          </a>
+        </p>
+
+        <p className="secret-dev">
+          secret dev setting:
+          {' '}
+          <label>
+            <input
+              type="checkbox"
+              onChange={e => setDev(e.target.checked)}
+              checked={isDev(ufosHost)}
+            />
+            localhost
+          </label>
         </p>
       </div>
     </HostContext.Provider>

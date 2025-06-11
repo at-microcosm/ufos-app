@@ -54,7 +54,7 @@ export function Collection({}) {
       <hr />
       →&nbsp;
       <Link to="/all">
-        browse <em>all</em> lexicons
+        browse all lexicons
       </Link>
     </div>
   );
