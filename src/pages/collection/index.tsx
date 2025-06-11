@@ -136,7 +136,7 @@ export function Collection({}) {
               {val: 'month', label: 'monthly'},
             ]}
             current={statPeriod}
-            onChange={p => setStatPeriod(p)}
+            onChange={setStatPeriod}
             subtle
             vertical
           />
@@ -158,7 +158,7 @@ export function Collection({}) {
                 {val: 'deletes', label: 'deleted'},
               ]}
               current={countType}
-              onChange={t => setCountType(t)}
+              onChange={setCountType}
               subtle
               vertical
             />
@@ -185,7 +185,9 @@ export function Collection({}) {
                   />
                 ))}
                 {samples.length > 1 && (
-                  <button onClick={() => setShowMore(false)}>
+                  <button
+                    onClick={() => setShowMore(false)}
+                  >
                     - hide {samples.length - 1} samples
                   </button>
                 )}
@@ -199,7 +201,9 @@ export function Collection({}) {
                     nsid={nsid}
                   />
                   {samples.length > 1 && (
-                    <button onClick={() => setShowMore(true)}>
+                    <button
+                      onClick={() => setShowMore(true)}
+                    >
                       + show {samples.length - 1} more samples
                     </button>
                   )}
@@ -211,20 +215,61 @@ export function Collection({}) {
     </div>
   );
 }
-      // <p>
-      //   {niceDt(new Date() - sample.time_us / 1000)} ago
-      //   {' '}
-      //   <small>{sample.did}/&hellip;/{sample.rkey}</small>
-      // </p>
 
 function Sample({ sample, nsid }) {
+  const [viewMode, setViewMode] = useState('preview');
+  const recordTime = new Date(sample.time_us / 1000);
+  const dt = new Date() - recordTime;
+  const ONE_HOUR = 60 * 60 * 1000;
+  const niceTime = dt > ONE_HOUR
+    ? recordTime.toISOString().split('T')[0]
+    : `${niceDt(dt)} ago`;
+  const atUri = `at://${sample.did}/${sample.collection}/${sample.rkey}`;
+  const contentLink = new URL(window.location);
+  contentLink.searchParams.append('record', atUri);
+  const reportLink = `https://docs.google.com/forms/d/e/1FAIpQLSfHIRAW6mmq5Midecxh-bVjoEKn4PHA5DuBCq7tpemDD4e4fw/viewform?usp=pp_url&entry.1269528930=Contents+of+a+sample+record&entry.1714716109=${encodeURIComponent(contentLink)}`;
+
   return (
-    <div style={{
-      background: '#111',
-      padding: '0.5rem',
-      margin: '0 0 1em',
-    }}>
-      <Record record={sample.record} nsid={nsid} />
-    </div>
+    <>
+      <div className="collection-sample-meta">
+        <ButtonGroup
+          options={[
+            {val: 'preview'},
+            {val: 'json'},
+          ]}
+          current={viewMode}
+          onChange={setViewMode}
+          subtle
+        />
+        <span className="collection-sample-actions">
+          <a
+            href={`https://pdsls.dev/${atUri}`}
+            className="ago external"
+            target="_blank"
+            title={`Sample seen at ${recordTime.toLocaleString()}`}
+          >
+            {niceTime}
+          </a>
+          <a
+            href={reportLink}
+            className="report external"
+            target="_blank"
+            title="report record"
+          >
+            report
+          </a>
+        </span>
+      </div>
+      <div className="collection-record-sample">
+        {viewMode === 'preview'
+          ? <Record record={sample.record} nsid={nsid} />
+          : (
+            <pre className="collection-record-sample-json">
+              {JSON.stringify(sample.record, null, 2)}
+            </pre>
+          )
+        }
+      </div>
+    </>
   );
 }

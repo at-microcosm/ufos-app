@@ -72,6 +72,14 @@ function App({ children }) {
         </p>
 
         <p className="secret-dev">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfHIRAW6mmq5Midecxh-bVjoEKn4PHA5DuBCq7tpemDD4e4fw/viewform"
+            className="report external"
+            target="_blank"
+          >
+            report content
+          </a>
+          {' | '}
           secret dev setting:
           {' '}
           <label>

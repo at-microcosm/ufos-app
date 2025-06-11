@@ -28,6 +28,9 @@ a.external {
 a.external:after {
   content: "↗";
 }
+a.report {
+  color: hsl(36, 66%, 44%);
+}
 
 body {
   margin: 0;
