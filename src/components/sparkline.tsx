@@ -67,7 +67,6 @@ export function Sparkline({ nsid, metric, height, period, interval, lastSegment,
           <SparkLineChart
             xAxis={{
               data: range.map(fromISO),
-              scaleType: 'time',
               valueFormatter: toLocale,
             }}
             yAxis={{ min: 0 }}
