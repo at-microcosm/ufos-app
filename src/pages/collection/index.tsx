@@ -101,6 +101,10 @@ export function Collection({}) {
               period={sparkPeriod}
               interval={statPeriod}
               metric={sparkMetric}
+              measuring={{
+                estimated_dids: 'unique users',
+                records: 'records',
+              }[statType]}
             />
           </div>
 

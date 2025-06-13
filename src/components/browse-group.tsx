@@ -13,7 +13,7 @@ export function BrowseGroup({ prefix, active }) {
   return (
     <div className="browse-group">
       {parents.map(p => (
-        <div style={{marginBottom: '0.5rem'}}>
+        <div key={p} style={{marginBottom: '0.5rem'}}>
           ↰&nbsp;
           <Link to={`/collection/?prefix=${p}`}>
             <NsidPrefix prefix={p} />

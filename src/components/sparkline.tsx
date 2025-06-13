@@ -39,11 +39,15 @@ const get_timeseries = async (host, nsid, period, interval) => {
   return await resp.json();
 }
 
-export function Sparkline({ nsid, metric, height, period, interval, lastSegment }) {
+const fromISO = d => new Date(d);
+const toLocale = d => d.toLocaleString();
+
+export function Sparkline({ nsid, metric, height, period, interval, lastSegment, measuring }) {
   const host = useContext(HostContext);
   metric = metric ?? 'dids_estimate';
   period = period ?? 'week';
   interval = interval ?? 'day';
+  measuring = measuring ?? 'unique users';
   const lastSegName = `${period}-for-${interval}`;
   return (
     <Fetch
@@ -61,10 +65,14 @@ export function Sparkline({ nsid, metric, height, period, interval, lastSegment 
       ok={({ series, range }) => (
         <div className={`sparkline-wrapper ${lastSegName ? `last-seg ${lastSegName}` : ''}`}>
           <SparkLineChart
-            xAxis={{ data: range }}
+            xAxis={{
+              data: range.map(fromISO),
+              scaleType: 'time',
+              valueFormatter: toLocale,
+            }}
             yAxis={{ min: 0 }}
             data={series[nsid].map(d => d[metric])}
-            valueFormatter={v => `${v.toLocaleString()} unique users`}
+            valueFormatter={v => `${v.toLocaleString()} ${measuring}`}
             height={height ?? 32}
             color='hsl(210, 94%, 63%)'
             showTooltip
