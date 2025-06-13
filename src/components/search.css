@@ -66,6 +66,13 @@
   padding: 0.25rem 0.5rem;
 }
 
+.search-input .search-result-item.ghost {
+  opacity: 0.5;
+}
+.search-input .search-result-item .ghosty::before {
+  content: "👻";
+}
+
 .search-input .search-result-item .bar {
   color: #888;
 }

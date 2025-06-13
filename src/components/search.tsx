@@ -109,6 +109,7 @@ function SearchResults({ query }) {
 
   const sorted = matches
     .map(match => {
+      const ghosty = (match.deletes >= match.creates) && (match.deletes > 0);
       const popularity = match.dids_estimate >= 1
         ? Math.log10(match.dids_estimate)
         : 0; // ~0-8
@@ -116,7 +117,8 @@ function SearchResults({ query }) {
         .filter(t => match.nsid.includes(t))
         .map(t => Math.pow(t.length, 1.618))
         .reduce((a, t) => a + t, 0); // how many total characters matched
-      return {...match, score: popularity + matchiness }
+      const ghostiness = ghosty ? 100 : 0;
+      return {...match, ghosty, score: popularity + matchiness - ghostiness }
     })
     .toSorted((a, b) => b.score - a.score);
 
@@ -124,7 +126,7 @@ function SearchResults({ query }) {
     <Link
       key={m.nsid}
       to={`/collection/?nsid=${m.nsid}`}
-      className="search-result-item"
+      className={`search-result-item ${m.ghosty ? 'ghost' : ''}`}
     >
       <span
         className="bar"
@@ -133,6 +135,7 @@ function SearchResults({ query }) {
         <NsidBar n={m.dids_estimate} />
       </span>
       {' '}
+      {m.ghosty && <span className="ghosty">&nbsp;</span>}
       <NsidNice nsid={m.nsid} />
     </Link>
   ));

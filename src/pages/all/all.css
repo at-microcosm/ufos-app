@@ -1,9 +1,24 @@
+.all-collections-control {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.all-collections-control h2 {
+  margin: 0;
+}
 .all-collections-item {
   display: flex;
   box-sizing: border-box;
   margin: 0.5rem 0;
   overflow-x: auto;
   max-width: calc(100vw - 4rem);
+}
+.all-collections-item.ghost {
+  opacity: 0.5;
+}
+.all-collections-item .ghosty::before {
+  content: "👻";
 }
 
 .all-collections-hidden {
