@@ -141,4 +141,8 @@
     font-size: 1.2rem;
     word-break: break-word;
   }
+  .coming-soon {
+    margin: 3rem 0 5rem;
+
+  }
 }

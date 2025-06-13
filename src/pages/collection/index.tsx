@@ -227,7 +227,18 @@ export function Collection({}) {
         </div>
         {currentPreview === 'lexicon' && (
           <div className="coming-soon">
-            <p>Lexicon resolution, definition previews, and validation are coming soon</p>
+            <p>Lexicon resolution, definition previews, and validation are coming soon!</p>
+            <p>
+              If a lexicon has been published for this NSID, you may be able to
+              {' '}
+              <a
+                href={`https://lexidex.bsky.dev/lexicon/${nsid}`}
+                target="_blank"
+                className="external"
+              >
+                view it on Lexidex
+              </a>
+            </p>
           </div>
         )}
         {currentPreview === 'stats' && (
