@@ -28,6 +28,13 @@ function App({ children }) {
           docs
         </Link>
       </div>
+
+      <p style={{ margin: '3rem 0 7rem' }}>
+        <span style={{ color: 'yellow' }}>service note:</span>
+        {' '}
+        looks like the raspberry pi that runs the UFOs API crashed. sorry! i'm away from home, check back on Monday.
+      </p>
+
       <div className="header">
         <h1>
           <NavLink to="/">
