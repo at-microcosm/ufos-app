@@ -61,6 +61,7 @@ export function Status({}) {
       <p><i>Note: this info may be up to 15s stale due to caching</i></p>
 
       <GetJson
+        key={refresh}
         endpoint="/meta"
         ok={status => (
           <>
