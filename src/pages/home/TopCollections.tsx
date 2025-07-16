@@ -47,7 +47,7 @@ export function TopCollections() {
   return (
     <>
       <div className="top-tiles">
-        <h2>Top collections</h2>
+        <h2>Top app collections</h2>
         <ButtonGroup
           options={[
             {val: 'day', label: 'today'},
