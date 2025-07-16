@@ -22,13 +22,23 @@ async function get_top_collections(host, period) {
   }[period]!;
   const since = new Date(now_truncated - period_ms).toISOString();
 
-  const q = `limit=9&since=${since}`;
+  const q = `limit=32&since=${since}`;
   const r = await fetch(`${host}/collections?order=dids-estimate&${q}`);
   if (!r.ok) {
     throw new Error(`request failed: ${r}`);
   }
   const data = await r.json();
-  return data.collections;
+
+  const seen = new Set();
+  const tops = data.collections.filter(collection => {
+    if (seen.size >= 9) return false;
+    const app = collection.nsid.split('.').slice(1, 2).join('.');
+    if (seen.has(app)) return false;
+    seen.add(app);
+    return true;
+  });
+
+  return tops;
 }
 
 export function TopCollections() {
