@@ -53,7 +53,12 @@ async function get_whats_hot(host, period) {
       }
     })
     .filter(c => !!c)
-    .toSorted((a, b) => b.change - a.change)
+    .toSorted((a, b) => {
+      /// translate "Infinity" growth into a smaller number for sorting purposes
+      const bc = b.change === Infinity ? Math.log10(b.current.dids_estimate) - 1 : b.change;
+      const ac = a.change === Infinity ? Math.log10(a.current.dids_estimate) - 1 : a.change;
+      return bc - ac;
+    })
     .slice(0, 6);
 }
 
