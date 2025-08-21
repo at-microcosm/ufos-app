@@ -32,12 +32,24 @@ async function get_whats_hot(host, period) {
     .map(q => fetch(`${host}/collections?order=dids-estimate&${q}`))
     .map(r => r.then(resp => resp.ok ? resp.json() : Promise.reject(new Error(resp)))));
 
+  const zeroBase = {
+    creates: 0,
+    updates: 0,
+    deletes: 0,
+    dids_estimate: 0,
+  };
+
   return recent.collections
     .map(current => {
       const old = before.collections.find(older => older.nsid === current.nsid);
       if (old && old.dids_estimate > 0) {
         const change = (current.dids_estimate - old.dids_estimate) / old.dids_estimate;
         return ({ change, current, old })
+      }
+      if (!old && current.dids_estimate >= 12) {
+        const change = Infinity;
+        let oldZero = { ...current, ...zeroBase };
+        return ({ change, current, old: oldZero });
       }
     })
     .filter(c => !!c)
